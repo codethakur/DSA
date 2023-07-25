@@ -24,7 +24,8 @@ public:
         nums.pop_back();
         sortRecursion(nums);
 
-        insertTemp(nums, temp);
+        insertTemp(nums, temp);                    //912. Sort an Array LeetCode TLE, Just to understand how recursion works.
+
     }
 
     vector<int> sortArray(vector<int>& nums) {
