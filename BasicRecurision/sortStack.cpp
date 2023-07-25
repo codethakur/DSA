@@ -1,3 +1,6 @@
+//https://www.codingninjas.com/studio/problems/sort-a-stack_985275?leftPanelTab=0
+//codingninjas
+
 #include <iostream>
 #include <stack>
 
