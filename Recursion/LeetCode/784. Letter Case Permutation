@@ -1,0 +1,52 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+
+void solve(string input, string output,vector<string>&V)
+{
+    if(input.length()==0){
+        V.push_back(output);
+        return;
+    }
+    if(isalpha(input[0]))
+    {
+        string op1 = output;
+        string op2 = output;
+        op1.push_back(tolower(input[0]));
+        op2.push_back(toupper(input[0]));
+        input.erase(input.begin()+0);
+        
+        solve(input,op1,V);
+        solve(input,op2,V);
+    }else{
+        string op1 = output;
+        op1.push_back(input[0]);
+        input.erase(input.begin()+0);
+        solve(input,op1,V);
+    }
+
+}
+
+vector<string> letterCasePermutation(string s) {
+        string output="";
+        vector<string>V;
+
+        solve(s,output,V);
+        return V;
+
+    }
+
+    int main()
+{
+    string s;
+    cin>>s;
+    string output=" ";
+    vector<string>V=letterCasePermutation(s);
+    solve(s,output,V);
+
+    for (const string& perm : V) {
+        cout << perm <<" ";
+    }
+    return 0;
+
+}
