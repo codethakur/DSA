@@ -1,5 +1,4 @@
-#include<bits/stdc++.h>
-using namespace std;
+#include "knapsack.h"
 
 bool knapsack(int arr[], int sum, int n)
 {
@@ -20,23 +19,4 @@ bool knapsack(int arr[], int sum, int n)
         }
     }
     return table[n][sum];
-}
-
-bool isSubsetSum(int arr[], int n, int sum)
-{
-    return knapsack(arr, sum, n);
-}
-
-int main()
-{
-    int arr[] = { 3, 34, 4, 12, 5, 2 };
-    int n = sizeof(arr) / sizeof(arr[0]);
-    int sum = 9;
-
-    if (isSubsetSum(arr, n, sum))
-        cout << "Subset with the given sum exists." << endl;
-    else
-        cout << "No subset with the given sum exists." << endl;
-
-    return 0;
 }
