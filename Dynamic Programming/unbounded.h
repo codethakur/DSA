@@ -1,20 +1,25 @@
-bool knapsack(int arr[], int sum, int n)
+int unboundedKnapsack(int length[], int prices[], int N)
 {
-    bool table[n + 1][sum + 1];
-
-    for (int i = 0; i < n + 1; i++)
+    int table[N+1][N+1];
+    for(int i=0; i<=N; i++)
     {
-        for (int j = 0; j < sum + 1; j++)
+        for(int j=0; j<=N; j++)
         {
-            if (i == 0)
-                table[i][j] = false;
-            if (j == 0)
-                table[i][j] = true;
-            else if (arr[i - 1] <= j)
-                table[i][j] = (table[i - 1][j - arr[i]] || table[i - 1][j]);
+            if(i==0 || j==0)
+            {
+                table[i][j] = 0;
+                continue;
+            }
+
+            if(length[i-1] <= j)
+            {
+                table[i][j] = max(prices[i-1] + table[i][j-length[i-1]], table[i-1][j]);
+            }
             else
-                table[i][j] = table[i - 1][j];
+            {
+                table[i][j] = table[i-1][j];
+            }
         }
     }
-    return table[n][sum];
+    return table[N][N];
 }
