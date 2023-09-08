@@ -1,55 +1,65 @@
 class Solution {
 public:
-    string addSpaces(vector<string>& words, int maxWidth, int start, int end, int space) {
-    string ans = words[start];
+    int MAX_WIDTH;
     
-    if (start + 1 == end) {
-        ans += string(maxWidth - words[start].size(), ' ');
-        return ans;
+    string CreatedLine(int i, int j, int perwordSpace, int extraSpace, vector<string>& words) {
+        string Line;
+        for(int k = i; k < j; k++) {
+            Line += words[k];
+            if (k == j - 1) continue;
+            
+            // Distribute spaces evenly
+            for(int z = 0; z < perwordSpace; z++) {
+                Line += ' ';
+                
+                // Add extra space if available
+                if (extraSpace > 0) {
+                    Line += ' ';
+                    extraSpace--;
+                }
+            }
+        }
+        
+        // Pad the line with spaces up to MAX_WIDTH
+        while (Line.length() < MAX_WIDTH) {
+            Line += ' ';
+        }
+        
+        return Line;
     }
-
-    int totalSpace = space + (end - start - 1); // Adjusted space calculation
-    int baseSpace = totalSpace / (end - start - 1);
-    int extraSpace = totalSpace % (end - start - 1);
-    
-    for (int i = start + 1; i < end; i++) {
-        int addToSpace = baseSpace + (extraSpace-- > 0 ? 1 : 0);
-        ans += string(addToSpace, ' ') + words[i];
-    }
-    
-    return ans;
-}
-
     
     vector<string> fullJustify(vector<string>& words, int maxWidth) {
-    vector<string> ans;
-    int n = words.size();
-    int start = 0;
-    int end = 0;
-
-    while (start < n) {
-        int lineLength = words[start].size();
-        end = start + 1;
+        MAX_WIDTH = maxWidth;
+        int n = words.size();
+        int i = 0;
+        vector<string> result;
         
-        while (end < n && lineLength + 1 + words[end].size() <= maxWidth) {
-            lineLength += 1 + words[end].size();
-            end++;
-        }
+        while (i < n) {
+            int j = i + 1;
+            int countword = words[i].length();
+            int space = 0;
+            
+            // Find words that fit in the current line
+            while (j < n && words[j].length() + countword + space < maxWidth) {
+                countword += words[j].length();
+                space++;
+                j++;
+            }
+            
+            int remainSpace = maxWidth - countword;
+            int perwordSpace = space == 0 ? 0 : remainSpace / space;
+            int extraSpace = space == 0 ? 0 : remainSpace % space;
 
-        if (end == n || end - start == 1) {
-            string Line = words[start];
-            for (int i = start + 1; i < end; i++)
-                Line += ' ' + words[i];
-            Line += string(maxWidth - lineLength, ' '); // Adjust line to maxWidth
-            ans.push_back(Line);
-        } else {
-            int space = maxWidth - lineLength;
-            ans.push_back(addSpaces(words, maxWidth, start, end, space)); // Pass maxWidth instead of lineLength
+            // If it's the last line or only one word in the line, left-justify
+            if (j == n) {
+                perwordSpace = 1;
+                extraSpace = 0;
+            }
+            
+            result.push_back(CreatedLine(i, j, perwordSpace, extraSpace, words));
+            i = j;
         }
-        start = end;
+        
+        return result;
     }
-
-    return ans;
-}
-
 };
