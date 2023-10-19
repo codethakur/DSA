@@ -1,30 +1,24 @@
 class Solution {
 public:
-    int lengthOfLongestSubstring(string s) {
-        int i = 0, j = 0;
-        int mx = 0; // Initialize with 0 instead of INT_MIN
-        unordered_map<char, int> mp;
-
-        while (j < s.size()) {
-            mp[s[j]]++;
-            
-            if (mp.size() > j - i + 1) {
-                j++;
-            } else if (mp.size() == j - i + 1) {
-                mx = max(mx, j - i + 1);
-                j++;
-            } else if (mp.size() < j - i + 1) {
-                while (mp.size() < j - i + 1) {
-                    mp[s[i]]--;
-                    if (mp[s[i]] == 0) {
-                        mp.erase(s[i]);
-                    }
-                    i++;
-                }
-                j++;
+    int totalFruit(vector<int>& fruits) {
+     int i=0,j=0;
+        int maxi=1;
+        unordered_map<int,int> mp;
+        while (j<fruits.size())
+        {
+            mp[fruits[j]]++;
+            while (mp.size()>2)
+            {
+                mp[fruits[i]]--;
+                if (mp[fruits[i]]==0)
+                    mp.erase(fruits[i]);
+                i++;
             }
+            if (mp.size()<=2)
+                maxi=max(maxi,j-i+1);
+            j++;
         }
-        
-        return mx;
+        return maxi;
+   
     }
 };
