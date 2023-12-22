@@ -10,7 +10,7 @@ struct Node {
     Node(int x) {
         data = x;
         next = NULL;
-        arb = NULL;
+        arb = NULL;                        //TC = O(N) , S.C. = O(N)
     }
 };
 
