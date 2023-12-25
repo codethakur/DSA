@@ -47,3 +47,54 @@ int main()
         4   5
 output: 2 1 4 3 5
 */
+
+/*
+#include<iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int data)
+    {
+        this->data = data;
+        this->left = NULL;
+        this->right = NULL;
+    }
+};
+
+Node* createTreeNode()
+{
+    cout << "Enter data (or -1 to indicate null): ";
+    int data;
+    cin >> data;
+
+    if (data == -1) {
+        return NULL;
+    }
+
+    Node* root = new Node(data);
+
+    cout << "Enter the data for the left child of " << data << ":" << endl;
+    root->left = createTreeNode();
+
+    cout << "Enter the data for the right child of " << data << ":" << endl;
+    root->right = createTreeNode();
+
+    return root;
+}
+
+int main()
+{
+    Node* root = createTreeNode();
+
+    // Now 'root' points to the root of the created binary tree.
+
+    system("pause>0");
+    return 0;
+}
+
+
+*/
