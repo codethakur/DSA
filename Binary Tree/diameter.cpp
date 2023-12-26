@@ -8,7 +8,12 @@ struct Node
         data = x;
         left = right = NULL;
     }
-}; */
+}; 
+/*
+    Test Cases Passed: 
+    535 /1311 => O(n^2)
+    Time Limit Exceeded
+*/
 
 class Solution {
   private:
