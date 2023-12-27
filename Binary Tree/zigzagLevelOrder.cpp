@@ -12,7 +12,7 @@ public:
             int Size = q.size();
             vector<int> TempAns(Size);
 
-            for (int i = 0; i < Size; i++) {  // Use < instead of <=
+            for (int i = 0; i < Size; i++) {  
                 TreeNode* frontNode = q.front();
                 q.pop();
                 int index = flag ? i : Size - i - 1;
