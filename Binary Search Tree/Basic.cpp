@@ -76,7 +76,6 @@ void inOrder(Node* root)
 {
     if (root == NULL)
     {
-        cout << " ";
         return;
     }
 
@@ -84,6 +83,7 @@ void inOrder(Node* root)
     cout << root->data << " ";
     inOrder(root->right);
 }
+
 //preOrder(NLR)
 void preOrder(Node* root)
 {
@@ -104,7 +104,25 @@ void postOrder(Node* root)
     cout << root->data << " ";
 }
 
+Node* minVal(Node* root)
+{
+    Node* temp = root;
+    while (temp->left != NULL)
+    {
+        temp = temp->left;
+    }
+    return temp;
+}
 
+Node* maxVal(Node* root)
+{
+    Node* temp = root;
+    while (temp->right != NULL)
+    {
+        temp = temp->right;
+    }
+    return temp;
+}
 
 int main() {
     Node* root = NULL;
@@ -114,14 +132,18 @@ int main() {
     cout << "LevelOrder" << endl;
     levelOrder(root);
 
-    cout<<endl << "inOrder" << " ";
+    cout << endl << "inOrder" << " ";
     inOrder(root);
 
-    cout << endl<< "preOrder" << " ";
+    cout << endl << "preOrder" << " ";
     preOrder(root);
 
-    cout<<endl << "preOrder" << " ";
-    preOrder(root);
+    cout << endl << "postOrder" << " ";
+    postOrder(root);
+
+    cout << endl << "min Value= " << minVal(root)->data << endl;
+
+    cout << endl << "max value= " << maxVal(root)->data << endl;
+
     system("pause>0");
 }
-    
