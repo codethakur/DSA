@@ -27,3 +27,23 @@ class Solution
       return slv(root, INT_MIN, INT_MAX);
     }
 };
+//////////////////////// Type 2/////////////////////////////
+class Solution {
+public:
+    vector<int>Node;
+       void inorder(TreeNode* root)
+       {
+           if(root->left) inorder(root->left);
+            Node.push_back(root->val);
+            if(root->right)
+            inorder(root->right);
+       } 
+    bool isValidBST(TreeNode* root) {
+       inorder(root);
+       for(int i =0; i<Node.size()-1; i++)
+       {
+           if(Node[i]>= Node[i+1]) return false;
+       }
+       return true;
+    }
+};
