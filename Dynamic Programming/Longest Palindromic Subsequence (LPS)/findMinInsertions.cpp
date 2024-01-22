@@ -21,7 +21,7 @@ public:
         }
         return table[n][m];
     }
-    int findMinInsertions(string S){
+    int findMinInsertions(string S){    //Same for -> MinDeletion
         // code here 
         string s2 = S;
         int n = S.length();
