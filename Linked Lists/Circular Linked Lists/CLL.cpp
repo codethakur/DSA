@@ -13,7 +13,7 @@ void insertAtBeginning(struct CLLNode **head, int data)
 
     if (!newNode)
     {
-        std::cout << "Memory full!";
+        std::cout << "Memory Error!";
         return;
     }
     newNode->data = data;
