@@ -105,6 +105,44 @@ int length(struct CLLNode *head)
     } while (current != head);
     return count;
 }
+void splitList(CLLNode *head, CLLNode **head1, CLLNode **head2)
+{
+    if (head == NULL || head->next == head)
+    {
+        *head1 = head;
+        *head2 = NULL;
+        return;
+    }
+
+    CLLNode *slow = head;
+    CLLNode *fast = head->next;
+
+    // Use the fast and slow pointer strategy to find the middle of the list
+    while (fast != head && fast->next != head)
+    {
+        fast = fast->next->next;
+        slow = slow->next;
+    }
+
+    // Set the head of the first half
+    *head1 = head;
+
+    // Set the head of the second half
+    *head2 = slow->next;
+
+    // Make the first half circular
+    slow->next = head;
+
+    // Find the last node of the second half to complete the circular list
+    CLLNode *current = *head2;
+    while (current->next != head)
+    {
+        current = current->next;
+    }
+    current->next = *head2;
+
+    return;
+}
 
 // Printint the Content of Circular Linked List
 void Print(struct CLLNode *head)
