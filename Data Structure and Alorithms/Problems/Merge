@@ -1,0 +1,183 @@
+#include <iostream>
+struct ListNode
+{
+    int data;
+    ListNode *next;
+};
+
+void insertAtEnd(struct ListNode **head, int data)
+{
+    ListNode *newNode = new ListNode();
+    newNode->data = data;   
+    newNode->next = nullptr;
+
+    if (*head == nullptr)
+    {
+        *head = newNode;
+        return;
+    }
+    ListNode *current = *head;
+    while (current->next != nullptr)
+    {
+        current = current->next;
+    }
+    current->next = newNode;
+}
+void PrintList(struct ListNode *head)
+{
+    struct ListNode *temp = head;
+    while (temp != nullptr)
+    {
+        std::cout << temp->data;
+        if (temp->next != nullptr)
+        {
+            std::cout << "->";
+        }
+        temp = temp->next;
+    }
+    std::cout << "->NULL" << std::endl;
+}
+
+struct ListNode *alternateMerge(struct ListNode *list1, struct ListNode *list2)
+{
+    struct ListNode *newNode = new ListNode();
+    struct ListNode *temp;
+
+    newNode->next = nullptr;
+    temp = newNode;
+    while (list1 != nullptr && list2 != nullptr)
+    {
+        if (list1->data <= list2->data)
+        {
+            temp->next = list1;
+            list1 = list1->next;
+        }
+        else
+        {
+            temp->next = list2;
+            list2 = list2->next; 
+        }
+        temp = temp->next;
+    }
+
+    // Attach the remaining nodes, if any
+    if (list1 != nullptr)
+        temp->next = list1;
+    else
+        temp->next = list2;
+
+    temp = newNode->next; // Start of the merged list
+    delete newNode;       // Delete temporary node
+    return temp;
+}
+
+// Function to add corresponding nodes of the same length linked lists
+void addListNumber(ListNode* list1, ListNode* list2, int* carry, ListNode** result) {
+    if (list1 == nullptr) return;
+    addListNumber(list1->next, list2->next, carry, result);
+    int sum = list1->data + list2->data + *carry;
+    *carry = sum / 10;
+    sum = sum % 10;
+    ListNode* temp = new ListNode();
+    temp->data = sum;
+    temp->next = *result;
+    *result = temp;
+}
+
+// Function to add remaining nodes of the longer list
+void addRemainingNumbers(ListNode* list1, int* carry, ListNode** result, int diff) {
+    if (list1 == nullptr || diff <= 0) return;
+    addRemainingNumbers(list1->next, carry, result, diff - 1);
+    int sum = list1->data + *carry;
+    *carry = sum / 10;
+    sum = sum % 10;
+    ListNode* temp = new ListNode();
+    temp->data = sum;
+    temp->next = *result;
+    *result = temp;
+}
+
+// Wrapper function to add two numbers represented by linked lists
+ListNode* addListNumberWraper(ListNode* list1, ListNode* list2) {
+    int list1Length = 0, list2Length = 0, diff = 0;
+    ListNode* current = list1;
+    while (current != nullptr) {
+        current = current->next;
+        list1Length++;
+    }
+    current = list2;
+    while (current != nullptr) {
+        current = current->next;
+        list2Length++;
+    }
+    diff = std::abs(list1Length - list2Length);
+    
+    if (list1Length < list2Length) {
+        std::swap(list1, list2);
+    }
+    current = list1;
+    while (diff--) {
+        current = current->next;
+    }
+
+    int carry = 0;
+    ListNode* result = nullptr;
+    addListNumber(current, list2, &carry, &result);
+    diff = std::abs(list1Length - list2Length);
+    addRemainingNumbers(list1, &carry, &result, diff);
+
+    if (carry) {
+        ListNode* temp = new ListNode();
+        temp->data = carry;
+        temp->next = result;
+        result = temp;
+    }
+
+    return result;
+}
+void push(ListNode** tail, int data) {
+    ListNode* newNode = new ListNode();
+    newNode->data = data;
+    newNode->next = nullptr;
+    (*tail)->next = newNode;
+    *tail = newNode;
+}
+
+ListNode* intersection(ListNode* list1, ListNode* list2) {
+    ListNode dummy;  // Create a dummy node
+    ListNode* tail = &dummy;
+    dummy.next = nullptr;  // Initialize dummy's next to nullptr
+
+    while (list1 != nullptr && list2 != nullptr) {
+        if (list1->data == list2->data) {
+            push(&tail, list1->data);
+            list1 = list1->next;
+            list2 = list2->next;
+        } else if (list1->data > list2->data) {
+            list2 = list2->next;
+        } else {
+            list1 = list1->next;
+        }
+    }
+
+    return dummy.next;
+}
+
+
+int main() {
+    ListNode* head1 = nullptr;
+    ListNode* head2 = nullptr;
+
+    insertAtEnd(&head1, 1);
+    insertAtEnd(&head1, 2);
+    insertAtEnd(&head1, 3);
+
+    insertAtEnd(&head2, 9);
+    insertAtEnd(&head2, 9);
+
+    ListNode* mergedList = addListNumberWraper(head1, head2);
+
+    PrintList(mergedList);
+
+    return 0;
+}
