@@ -1,6 +1,7 @@
 #include <iostream>
 #include <algorithm>  // Required for std::clamp
 #include <climits>
+#include <cstring>  // For memcpy
 
 struct Stack {
     int top;
@@ -32,15 +33,47 @@ int isFull(struct Stack* S) {
     return (S->top == S->capacity - 1);
 }
 
+
+
+
+void doubleStack(struct Stack* S) {
+    // Double the capacity
+    S->capacity *= 2;
+
+    // Create a new array with the new capacity
+    int* newArray = new int[S->capacity];
+
+    //S->array = realloc(S->array, S->capacity * sizeof(int));
+
+    // Copy the existing elements using memcpy (faster than looping)
+    std::memcpy(newArray, S->array, (S->top + 1) * sizeof(int));
+
+    // Delete the old array
+    delete[] S->array;
+
+    // Update the stack's array pointer to the new array
+    S->array = newArray;
+}
+
+
 void Push(struct Stack* S, int data) {
     if (isFull(S)) {
         std::cerr << "Stack Overflow\n";
     }
     else {
         // Use std::clamp to ensure 'top' doesn't go out of bounds
-        S->top = std::clamp(S->top + 1, 0, S->capacity - 1);
+       // S->top = std::clamp(S->top + 1, 0, S->capacity - 1);
+        S->top++;
         S->array[S->top] = data;
     }
+}
+
+void PushIntoDoubleStack(struct Stack* S, int data)
+{
+    if (isFull(S)) {
+        doubleStack(S);
+    }
+    S->array[++S->top] = data;
 }
 
 int Pop(struct Stack* S) {
@@ -79,17 +112,17 @@ int main() {
         return 1;
     }
 
-    for (int i = 0; i < capacity; i++) {
-        Push(stk, i);
+    for (int i = 0; i <= 2 * capacity; i++) {
+        PushIntoDoubleStack(stk, i);
+
     }
 
     std::cout << "Top Element: " << Peek(stk) << std::endl;
     std::cout << "Stack Size: " << Size(stk) << std::endl;
 
     // Pop all elements
-    std::cout << "Popped Elements: ";
-    for (int i = 0; i < capacity; i++) {
-        std::cout << Pop(stk) << " ";
+    for (int i = 0; i <= capacity; i++) {
+        std::cout << "Popped Elements:" << Pop(stk) << std::endl;
     }
     std::cout << std::endl;
 
@@ -101,5 +134,7 @@ int main() {
     }
 
     deleteStack(stk);
+
+    system("pause>0");
     return 0;
 }
