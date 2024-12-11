@@ -1,0 +1,87 @@
+#include "StackLL.h"
+#include <cstdlib> // For NULL if using C-style
+#include<iostream>
+#include<climits>
+
+StackLL* CreateStackLL() {
+    StackLL* stk = new StackLL();
+    stk->top = nullptr;
+    return stk;
+}
+
+void pushintoStackLL(StackLL* S, int data)
+{
+    ListNode * temp = new ListNode();
+    if (!temp) {
+        std::cerr<< "\nStack\n Heap Overflow\n";
+    }
+    else {
+        temp->data = data;
+        temp->next = S->top;
+        S->top = temp;
+    }
+}
+
+int SizeStackLL(StackLL* S)
+{
+    int count = 0;
+    ListNode* temp;
+    if (isEmptStackLL(S))
+        return 0;
+    temp = S->top;
+    while (temp) {
+        count++;
+        temp = temp->next;
+    }
+    return count;
+}
+
+int isEmptStackLL(StackLL* S)
+{
+    return S->top == NULL;
+}
+
+int popStackLL(StackLL* S)
+{
+    if (isEmptStackLL(S))
+        return INT_MIN;
+    int data = 0;
+    ListNode* temp = S->top;
+    S->top = S->top->next;
+    data = temp->data;
+    delete temp;
+    return data;
+}
+
+int peekStackLL(StackLL* S)
+{
+    if (isEmptStackLL(S))
+        return INT_MIN;
+    
+    return S->top->data;
+}
+
+//void deleteStackLL(StackLL* S)
+//{
+//    ListNode* temp, * p;
+//    p = S->top;
+//    while (p)
+//    {
+//        temp = p->next;
+//        p = p->next;
+//        delete temp;
+//    }
+//    delete S;
+//}
+void deleteStackLL(StackLL* S) {
+    ListNode* temp;
+    while (S->top) { // While there are nodes in the stack
+        temp = S->top;      // Store the current node
+        S->top = S->top->next; // Move the top pointer to the next node
+        delete temp;        // Delete the current node
+    }
+    delete S; // Finally, delete the stack structure
+}
+
+
+
