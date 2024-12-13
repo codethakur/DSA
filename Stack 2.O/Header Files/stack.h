@@ -86,6 +86,31 @@ T pop(Stack<T>* S) {
 }
 
 template <typename T>
+T peek(Stack<T>* S) {
+    if (isEmpty(S)) {
+        std::cerr << "Attempt to peek an empty stack!" << std::endl;
+        throw std::out_of_range("Stack underflow");
+    }
+    std::cout << "Peeking: " << S->array[S->top] << std::endl;
+    return S->array[S->top];
+}
+
+
+template <typename T>
+size_t Size(Stack<T>* S) {
+    return S->top + 1;
+}
+
+template <typename T>
+T getMinimum(Stack<T>* minStack) {
+    if (isEmpty(minStack)) {
+        std::cerr << "Error: Attempted to get minimum from an empty minStack!" << std::endl;
+        throw std::runtime_error("minStack is empty");
+    }
+    return peek(minStack);
+}
+
+template <typename T>
 void deleteStack(Stack<T>* S) {
     delete[] S->array;
     delete S;
