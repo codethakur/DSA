@@ -15,6 +15,7 @@ void PushIntoDoublestack(Stack<T>* mainStack, Stack<T>* minStack, T data) {
         push(minStack, data);
         std::cout << "minStack was empty. Pushed " << data << " into minStack." << std::endl;
     }
+   /*
     else {
         T currentMin = peek(minStack);
         if (data <= currentMin) {
@@ -25,7 +26,15 @@ void PushIntoDoublestack(Stack<T>* mainStack, Stack<T>* minStack, T data) {
             push(minStack, currentMin);
             std::cout << "Pushed current minimum " << currentMin << " into minStack." << std::endl;
         }
-    }
+    }*/
+     else if (peek(minStack) >= data) {
+         push(minStack, data);
+         std::cout << "Pushed " << data << " into minStack as new minimum." << std::endl;
+     }
+     else {
+         push(minStack, peek(minStack));
+         std::cout << "Pushed current minimum " << peek(minStack) << " into minStack." << std::endl;
+     }
 
 }
 
