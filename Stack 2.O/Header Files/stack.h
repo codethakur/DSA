@@ -91,7 +91,7 @@ T peek(Stack<T>* S) {
         std::cerr << "Attempt to peek an empty stack!" << std::endl;
         throw std::out_of_range("Stack underflow");
     }
-    std::cout << "Peeking: " << S->array[S->top] << std::endl;
+   // std::cout << "Peeking: " << S->array[S->top] << std::endl;
     return S->array[S->top];
 }
 
